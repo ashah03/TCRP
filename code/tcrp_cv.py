@@ -27,9 +27,11 @@ work_dic = '/share/data/jinbodata/siqi/mut_exp_cnv_data/challenge_GDSC_PDTC/'
 # work_dic = '/share/data/jinbodata/siqi/mut_exp_cnv_data/challenge_GDSC_PDX/'
 # data_dic = '/share/data/jinbodata/siqi/mut_exp_cnv_data/challenge_4/tissue_test_data/'
 
-parser.add_argument('--tissue', type=str, default='UPPER_AERODIGESTIVE_TRACT',
+parser.add_argument('--feature_dic', type=str, default='data/drug_features', help='Feature folder')
+parser.add_argument('--dataset', type=str, default='GDSC1_PDTC', help='Which combination of datasets')
+parser.add_argument('--tissue', type=str, default='PDTC',
                     help='Testing tissue, using the rest tissues for training')
-parser.add_argument('--drug', type=str, default='AC220', help='Treated drug')
+parser.add_argument('--drug', type=str, default='Sorafenib', help='Treated drug')
 parser.add_argument('--gene', type=str, default='TP53', help='Knockout genes')
 parser.add_argument('--no-cuda', action='store_true', default=False, help='Disables CUDA training.')
 parser.add_argument('--seed', type=int, default=100, help='Random seed.')
@@ -42,9 +44,9 @@ parser.add_argument('--num_inner_updates', type=int, default=1, help='Initial le
 parser.add_argument('--num_trials', type=int, default=50, help='Number of trials for unseen tissue')
 parser.add_argument('--hidden', type=int, default=60, help='Number of hidden units of NN for single task')
 parser.add_argument('--patience', type=int, default=3, help='Patience')
-parser.add_argument('--tissue_list', type=str, default=work_dic + 'cell_line_data/tissue_cell_line_list.pkl',
-                    help='Cell line list for different tissues')
-parser.add_argument('--log_folder', type=str, default=work_dic + 'Log/', help='Log folder')
+# parser.add_argument('--tissue_list', type=str, default=work_dic + 'cell_line_data/tissue_cell_line_list.pkl',
+#                     help='Cell line list for different tissues')
+# parser.add_argument('--log_folder', type=str, default=work_dic + 'Log/', help='Log folder')
 
 parser.add_argument('--meta_lr', type=float, default=0.001, help='Learning rate for meta-learning update')
 parser.add_argument('--inner_lr', type=float, default=0.001, help='Learning rate for ')
@@ -67,7 +69,7 @@ patience = args.patience
 # np.random.seed(args.seed)
 # torch.manual_seed(args.seed)
 
-tissue_list = work_dic + drug + '_tissue_map.pkl'
+tissue_list = f"{args.feature_dic}/{args.dataset}/{args.drug}_tissue_cell_line_list.pkl"
 print(tissue_list)
 # Load tissue cell line mapping
 with open(tissue_list, 'rb') as f:

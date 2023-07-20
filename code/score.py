@@ -81,8 +81,12 @@ def evaluate_new(net, loader, train_flag, weights=None):
         # Here loss is MSE
         l = net.loss_fn(out, target_var)
 
-        test_predict = torch.cat([test_predict, out.data], 0)
-        test_label = torch.cat([test_label, target_var.data], 0)
+        if len(test_predict) == 0:
+            test_predict = out.data
+            test_label = target_var.data
+        else:
+            test_predict = torch.cat([test_predict, out.data], 0)
+            test_label = torch.cat([test_label, target_var.data], 0)
 
         # print l.data.cpu().numpy().shape
         total_loss += l.data.cpu().numpy()
@@ -144,8 +148,12 @@ def evaluate(net, loader, train_flag, weights=None):
         # Here loss is MSE
         l = net.loss_fn(out, target_var)
 
-        test_predict = torch.cat([test_predict, out.data], 0)
-        test_label = torch.cat([test_label, target_var.data], 0)
+        if len(test_predict) == 0:
+            test_predict = out.data
+            test_label = target_var.data
+        else:
+            test_predict = torch.cat([test_predict, out.data], 0)
+            test_label = torch.cat([test_label, target_var.data], 0)
 
         # total_loss += l.data.cpu().numpy()[0]
         total_loss += l.data.cpu().numpy()
